@@ -2,25 +2,27 @@ package org.alejandria.bookapp.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUser")
+    @Column(name = "id_User")
 
-    private Long id_user;
+    private Long idUser;
 
-    @Column(name = "firstName",length = 45,nullable = false)
+    @Column(name = "first_Name",length = 45,nullable = false)
 
     private String firstName;
 
-    @Column(name = "lastName",length = 45,nullable = false)
+    @Column(name = "last_Name",length = 45,nullable = false)
 
     private String lastName;
 
-    @Column(name = "lastName2",length = 45)
+    @Column(name = "last_Name2",length = 45)
 
     private String lastName2;
 
@@ -34,8 +36,11 @@ public class UserEntity {
     @Column(name = "telephone",length = 15)
     private String telephone;
 
+    @OneToMany(mappedBy = "user")
+    private List<OrderEntity> orders;
+
     public UserEntity(Long id_user, String firstName, String lastName, String lastName2, String email, String telephone, String password) {
-        this.id_user = id_user;
+        this.idUser = id_user;
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastName2 = lastName2;
@@ -82,12 +87,12 @@ public class UserEntity {
         this.telephone = telephone;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Long id_user) {
+        this.idUser = id_user;
     }
 
     public String getFirstName() {
@@ -109,7 +114,7 @@ public class UserEntity {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "id_user=" + id_user +
+                "id_user=" + idUser +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", lastName2='" + lastName2 + '\'' +

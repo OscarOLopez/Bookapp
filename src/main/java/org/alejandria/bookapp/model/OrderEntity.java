@@ -7,17 +7,18 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
+@Table(name = "orders")
 public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_Id")
+    @Column(name = "id_order")
     private Long orderId;
 
     @Column(name = "order_date",nullable = false)
     private Date orderDate;
 
-    @Column(name = "total",nullable = false)
+    @Column(name = "total",nullable = false,columnDefinition = "DECIMAL(10,2)")
     private BigDecimal total;
 
     @Column(name = "payment_Method",nullable = false)
@@ -26,6 +27,9 @@ public class OrderEntity {
     @Column(name = "status",nullable = false)
     private Set status;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user",referencedColumnName = "id_user")
+    private UserEntity user;
 
     public OrderEntity(Long orderId, Date orderDate, BigDecimal total, Set payment_Method, Set status) {
         this.orderId = orderId;
