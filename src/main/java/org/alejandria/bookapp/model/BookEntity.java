@@ -53,8 +53,11 @@ public class BookEntity {
 
     @Column(name = "cover_img")
     private String coverImg;
+    
+    @Column(name = "category")
+    private String category;
 
-    public BookEntity(Long bookId, BigDecimal price, BigDecimal cost, String author, String isbn, String title, String publisher, Date datePublished, Integer pageCount, Integer stock, String language, Set format, String description, String coverImg) {
+    public BookEntity(Long bookId, BigDecimal price, BigDecimal cost, String author, String isbn, String title, String publisher, Date datePublished, Integer pageCount, Integer stock, String language, Set format, String description, String coverImg, String category) {
         this.bookId = bookId;
         this.price = price;
         this.cost = cost;
@@ -69,6 +72,7 @@ public class BookEntity {
         this.format = format;
         this.description = description;
         this.coverImg = coverImg;
+        this.category = category;
     }
 
     public BookEntity() {
@@ -187,6 +191,14 @@ public class BookEntity {
         this.coverImg = coverImg;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "BookEntity{" +
@@ -204,6 +216,7 @@ public class BookEntity {
                 ", format=" + format +
                 ", description='" + description + '\'' +
                 ", coverImg='" + coverImg + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
