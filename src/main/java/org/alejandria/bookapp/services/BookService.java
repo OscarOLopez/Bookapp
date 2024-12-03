@@ -4,9 +4,11 @@ import org.alejandria.bookapp.exceptions.BookNotFoundException;
 import org.alejandria.bookapp.model.BookEntity;
 import org.alejandria.bookapp.repository.BoookRespository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BookService {
 
     // Instanciar BoookRespository
@@ -68,5 +70,21 @@ public class BookService {
         })
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
+
+    //getByIsbn() (JPQL y ResponseEntity<>)
+    public BookEntity getByIsbn(String isbn) {
+        return this.bookRepository.getByIsbn(isbn);
+    }
+
+    //getByAuthor (JPQL y ResponseEntity<>)  Tengo mis dudas si no debe ser una *LIST*
+    public BookEntity getByAuthor(String author) {
+        return this.bookRepository.getByAuthor(author);
+    }
+
+    //filtro por precio findByPriceBetween (JPQL y ResponseEntity<>)
+    public List<BookEntity> findByPriceBetween(Double minPrice, Double maxPrice) {
+        return this.bookRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
 
 }
