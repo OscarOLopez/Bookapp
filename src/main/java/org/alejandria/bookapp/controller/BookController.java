@@ -57,4 +57,35 @@ public class BookController {
         }
     }
 
+    //Metodo para mapear getByISBN() usando PathVariable() en el endpoint
+    @GetMapping("isbn/{isbn}")
+    public BookEntity findBookByIsbn(@PathVariable(name = "isbn")String isbn){
+        return this.bookService.getByISBN(isbn);
+    }
+
+
+    //Metodo para mapear getByAuthor() usando PathVariable() en el endpoint
+    @GetMapping("/author/{author}")
+    public List<BookEntity> getBooksByAuthor(@PathVariable(name = "author")String author){
+        return this.bookService.getByAuthor(author);
+    }
+
+    //Metodo para mapear getByPrices() usando PathVariable() en el endpoint
+    @GetMapping("/prices/{minPrice}-{maxPrice}")
+    public List<BookEntity> getBooksByAuthor(@PathVariable(name = "minPrice")Double minPrice,@PathVariable(name = "maxPrice")Double maxPrice ){
+        return this.bookService.getByPrices(minPrice,maxPrice);
+    }
+
+    //Metodo para mapear getByCategory() usando PathVariable() en el endpoint
+    @GetMapping("/category/{category}")
+    public List<BookEntity> getBooksByCategory(@PathVariable(name = "category")String category){
+        return this.bookService.getByCategory(category);
+    }
+
+    //Metodo para mapear getByPublisher() usando PathVariable() en el endpoint
+    @GetMapping("/publisher/{publisher}")
+    public List<BookEntity> getBooksByPublisher(@PathVariable(name = "publisher")String publisher){
+        return this.bookService.getByPublisher(publisher);
+    }
+
 }

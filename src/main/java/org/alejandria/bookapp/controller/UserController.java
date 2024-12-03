@@ -29,15 +29,11 @@ public class UserController {
         return this.userService.getAll();
     }
 
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
     public UserEntity getUserById(@PathVariable Long id) {
         return this.userService.getById(id);
     }
 
-    @GetMapping("users/email/{email}")
-    public UserEntity getUserByEmail(@PathVariable String email){
-        return this.userService.getByEmail(email);
-    }
 
     @PostMapping
     public ResponseEntity<UserEntity> newUser(@Validated @RequestBody UserEntity user) {

@@ -21,8 +21,8 @@ public class BookEntity {
     @Column(name = "book_id")
     private Long bookId;
 
-    @Column(name = "price",nullable = false,precision = 6,scale = 2)
-    private BigDecimal price;
+    @Column(name = "price",nullable = false,columnDefinition = "DECIMAL(6,2)")
+    private Double price;
 
     @Column(name = "cost",nullable = false,precision = 6,scale = 2)
     private BigDecimal cost;
