@@ -79,8 +79,8 @@ public class BookController {
 
     //Metodo para recupera un libro mediante Autor utilizando la Query personalizada y la clase ResponseEntity<>
     @GetMapping("/author/{author}")
-    public ResponseEntity<BookEntity> getByAuthor(@PathVariable(name = "author")String author){
-        BookEntity bookByAuthor = this.bookService.getByAuthor(author);
+    public ResponseEntity<List<BookEntity>> getByAuthor(@PathVariable(name = "author")String author){
+        List<BookEntity> bookByAuthor = this.bookService.getByAuthor(author);
         if(bookByAuthor == null){
             return ResponseEntity.notFound().build();
         }
@@ -90,11 +90,23 @@ public class BookController {
     //Metodo para filtrar libros en un rango de precios utilizando la Query personalizada
     @GetMapping("/price/{minPrice}/{maxPrice}")
     public ResponseEntity<List<BookEntity>> getBooksByPriceRange(@PathVariable(name = "minPrice")Double minPrice, @PathVariable(name = "maxPrice")Double maxPrice){
-        List<BookEntity> booksInRange = this.bookService.findByPriceBetween(minPrice, maxPrice);
+        List<BookEntity> booksInRange = this.bookService.getByPrices(minPrice, maxPrice);
         if(booksInRange == null){
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(booksInRange);
+    }
+
+    //Metodo para mapear getByCategory() usando PathVariable() en el endpoint
+    @GetMapping("/category/{category}")
+    public List<BookEntity> getBooksByCategory(@PathVariable(name = "category")String category){
+        return this.bookService.getByCategory(category);
+    }
+
+    //Metodo para mapear getByPublisher() usando PathVariable() en el endpoint
+    @GetMapping("/publisher/{publisher}")
+    public List<BookEntity> getBooksByPublisher(@PathVariable(name = "publisher")String publisher){
+        return this.bookService.getByPublisher(publisher);
     }
 
 }

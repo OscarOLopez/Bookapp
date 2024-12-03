@@ -2,7 +2,7 @@ package org.alejandria.bookapp.services;
 
 import org.alejandria.bookapp.exceptions.BookNotFoundException;
 import org.alejandria.bookapp.model.BookEntity;
-import org.alejandria.bookapp.repository.BoookRespository;
+import org.alejandria.bookapp.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +11,12 @@ import java.util.List;
 @Service
 public class BookService {
 
-    // Instanciar BoookRespository
-    private final BoookRespository bookRepository;
+    // Instanciar BookRepository
+    private final BookRepository bookRepository;
 
     // Inyectar en el constructor
     @Autowired
-    public BookService(BoookRespository bookRepository) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -70,22 +70,37 @@ public class BookService {
             return this.bookRepository.save(bookMap);
         })
                 .orElseThrow(() -> new BookNotFoundException(id));
+
+    }
+
+    // Metodo para obtener libros por ISBN
+    public BookEntity getByISBN(String isbn) {
+        return this.bookRepository.getByIsbn(isbn);
+    }
+
+    //Metodo para obtener libros por Autor
+    public List<BookEntity> getByAuthor(String author) {
+        return this.bookRepository.getByAuthor(author);
+    }
+
+    //Metodo para obtener libros entre x y y precios
+    public List<BookEntity> getByPrices(Double minPrice,Double maxPrice) {
+        return this.bookRepository.findByPriceBetween(minPrice,maxPrice);
+    }
+
+    //Metodo para obtener libros por categoria
+    public List<BookEntity> getByCategory(String category) {
+        return this.bookRepository.getByCategory(category);
+    }
+
+    //Metodo para obtener libros por editorial
+    public List<BookEntity> getByPublisher(String publisher) {
+        return this.bookRepository.getByPublisher(publisher);
     }
 
     //getByIsbn() (JPQL y ResponseEntity<>)
     public BookEntity getByIsbn(String isbn) {
         return this.bookRepository.getByIsbn(isbn);
     }
-
-    //getByAuthor (JPQL y ResponseEntity<>)  Tengo mis dudas si no debe ser una *LIST*
-    public BookEntity getByAuthor(String author) {
-        return this.bookRepository.getByAuthor(author);
-    }
-
-    //filtro por precio findByPriceBetween (JPQL y ResponseEntity<>)
-    public List<BookEntity> findByPriceBetween(Double minPrice, Double maxPrice) {
-        return this.bookRepository.findByPriceBetween(minPrice, maxPrice);
-    }
-
 
 }
