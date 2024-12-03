@@ -66,6 +66,7 @@ public class BookService {
             bookMap.setFormat(book.getFormat());
             bookMap.setDescription(book.getDescription());
             bookMap.setCoverImg(book.getCoverImg());
+            bookMap.setCategory(book.getCategory());
             return this.bookRepository.save(bookMap);
         })
                 .orElseThrow(() -> new BookNotFoundException(id));
@@ -95,6 +96,11 @@ public class BookService {
     //Metodo para obtener libros por editorial
     public List<BookEntity> getByPublisher(String publisher) {
         return this.bookRepository.getByPublisher(publisher);
+    }
+
+    //getByIsbn() (JPQL y ResponseEntity<>)
+    public BookEntity getByIsbn(String isbn) {
+        return this.bookRepository.getByIsbn(isbn);
     }
 
 }

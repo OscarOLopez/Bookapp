@@ -33,7 +33,7 @@ public class BookController {
     }
 
     //Metodo para crear un libro
-    @PostMapping
+    @PostMapping("/create-book")
     public ResponseEntity<BookEntity> newBook(@RequestBody BookEntity book){
         if (this.bookService.getByTitle(book.getTitle()) != null){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -47,6 +47,16 @@ public class BookController {
         this.bookService.deleteBook(id);
     }
 
+    //Metodo para recupera un libro mediante Titulo utilizando la Query personalizada y la clase ResponseEntity<>
+    @GetMapping("/title/{title}")
+    public ResponseEntity<BookEntity> getByTitle(@PathVariable(name = "title")String title){
+        BookEntity bookByTitle = this.bookService.getByTitle(title);
+        if(bookByTitle == null){
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<BookEntity>(bookByTitle, HttpStatus.OK);
+    }
+
     //Metodo para Actualizar toda la entidad usando mapeo en PUT
     @PutMapping("/update-book/{id}")
     public ResponseEntity<BookEntity> updateBook(@PathVariable(name = "id")Long id, @RequestBody BookEntity book){
@@ -57,23 +67,34 @@ public class BookController {
         }
     }
 
-    //Metodo para mapear getByISBN() usando PathVariable() en el endpoint
-    @GetMapping("isbn/{isbn}")
-    public BookEntity findBookByIsbn(@PathVariable(name = "isbn")String isbn){
-        return this.bookService.getByISBN(isbn);
+    //Metodo para recupera un libro mediante ISBN utilizando la Query personalizada y la clase ResponseEntity<>
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<BookEntity> getByIsbn(@PathVariable(name = "isbn")String isbn){
+        BookEntity bookByIsbn = this.bookService.getByIsbn(isbn);
+        if(bookByIsbn == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookByIsbn);
     }
 
-
-    //Metodo para mapear getByAuthor() usando PathVariable() en el endpoint
+    //Metodo para recupera un libro mediante Autor utilizando la Query personalizada y la clase ResponseEntity<>
     @GetMapping("/author/{author}")
-    public List<BookEntity> getBooksByAuthor(@PathVariable(name = "author")String author){
-        return this.bookService.getByAuthor(author);
+    public ResponseEntity<List<BookEntity>> getByAuthor(@PathVariable(name = "author")String author){
+        List<BookEntity> bookByAuthor = this.bookService.getByAuthor(author);
+        if(bookByAuthor == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookByAuthor);
     }
 
-    //Metodo para mapear getByPrices() usando PathVariable() en el endpoint
-    @GetMapping("/prices/{minPrice}-{maxPrice}")
-    public List<BookEntity> getBooksByAuthor(@PathVariable(name = "minPrice")Double minPrice,@PathVariable(name = "maxPrice")Double maxPrice ){
-        return this.bookService.getByPrices(minPrice,maxPrice);
+    //Metodo para filtrar libros en un rango de precios utilizando la Query personalizada
+    @GetMapping("/price/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<BookEntity>> getBooksByPriceRange(@PathVariable(name = "minPrice")Double minPrice, @PathVariable(name = "maxPrice")Double maxPrice){
+        List<BookEntity> booksInRange = this.bookService.getByPrices(minPrice, maxPrice);
+        if(booksInRange == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(booksInRange);
     }
 
     //Metodo para mapear getByCategory() usando PathVariable() en el endpoint

@@ -37,11 +37,11 @@ public interface BookRepository extends JpaRepository<BookEntity, Long>{
 
     // FILTRO PARA SELECCIONAR LOS MÁS NUEVOS
     @Query("SELECT b FROM BookEntity b WHERE b.date_published >= ?1")
-    BookEntity findBooksPublished(Date fromDate);
+    List<BookEntity> findBooksPublished(Date fromDate);
 
     // FILTRO PARA SELECCIONAR LOS RECIÉN AÑADIDOS
     @Query("SELECT b FROM BookEntity b WHERE b.book_id BETWEEN (SELECT MAX(book_id) - 30 FROM BookEntity b) AND (SELECT MAX(book_id) FROM BookEntity b) ORDER BY b.book_id DESC")
-    BookEntity getRecentlyAdded(Long book_id);
+    List<BookEntity> getRecentlyAdded(Long book_id);
 
 
 }
