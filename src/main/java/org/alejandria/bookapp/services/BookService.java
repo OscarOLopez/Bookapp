@@ -66,6 +66,7 @@ public class BookService {
             bookMap.setFormat(book.getFormat());
             bookMap.setDescription(book.getDescription());
             bookMap.setCoverImg(book.getCoverImg());
+            bookMap.setCategory(book.getCategory());
             return this.bookRepository.save(bookMap);
         })
                 .orElseThrow(() -> new BookNotFoundException(id));
