@@ -4,6 +4,7 @@ import org.alejandria.bookapp.model.BookEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookEntity, Long>{
@@ -36,11 +37,11 @@ public interface BookRepository extends JpaRepository<BookEntity, Long>{
 
 
     // FILTRO PARA SELECCIONAR LOS MÁS NUEVOS
-    @Query("SELECT b FROM BookEntity b WHERE b.date_published >= ?1")
+    @Query("SELECT b FROM BookEntity b WHERE b.datePublished >= ?1")
     List<BookEntity> findBooksPublished(Date fromDate);
 
     // FILTRO PARA SELECCIONAR LOS RECIÉN AÑADIDOS
-    @Query("SELECT b FROM BookEntity b WHERE b.book_id BETWEEN (SELECT MAX(book_id) - 30 FROM BookEntity b) AND (SELECT MAX(book_id) FROM BookEntity b) ORDER BY b.book_id DESC")
+    @Query("SELECT b FROM BookEntity b WHERE b.bookId BETWEEN (SELECT MAX(b.bookId) - 30 FROM BookEntity b) AND (SELECT MAX(b.bookId) FROM BookEntity b) ORDER BY b.bookId DESC")
     List<BookEntity> getRecentlyAdded(Long book_id);
 
 
