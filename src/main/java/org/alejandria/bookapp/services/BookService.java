@@ -2,18 +2,19 @@ package org.alejandria.bookapp.services;
 
 import org.alejandria.bookapp.exceptions.BookNotFoundException;
 import org.alejandria.bookapp.model.BookEntity;
-import java.util.List;
-import org.alejandria.bookapp.repository.BookRepository;
+import org.alejandria.bookapp.repository.BoookRespository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class BookService {
 
-    // Instanciar BookRepository
-    private final BookRepository bookRepository;
+    // Instanciar BoookRespository
+    private final BoookRespository bookRepository;
 
     // Inyectar en el constructor
-    // @Autowired ****************************************************************************** Eliminar Comentario
-    public BookService(BookRepository bookRepository) {
+    @Autowired
+    public BookService(BoookRespository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -33,6 +34,20 @@ public class BookService {
         return this.bookRepository.save(newBook);
     }
 
+    //Metodo para eliminar un libro mediante ID
+    public void deleteBook(Long id) {
+        if (this.bookRepository.existsById(id)) {
+            this.bookRepository.deleteById(id);
+        } else {
+            throw new BookNotFoundException(id);
+        }
+    }
+
+    // getByTitle() (JPQL y ResponseEntity<>)
+    public BookEntity getByTitle(String title) {
+        return this.bookRepository.getByTitle(title);
+    }
+
     //PUT -> Actualizando toda la entidad (BookEntity)
     public BookEntity updateBook(BookEntity book, Long id) {
         return bookRepository.findById(id).map(bookMap ->{
@@ -49,6 +64,7 @@ public class BookService {
             bookMap.setFormat(book.getFormat());
             bookMap.setDescription(book.getDescription());
             bookMap.setCoverImg(book.getCoverImg());
+            return this.bookRepository.save(bookMap);
         })
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
