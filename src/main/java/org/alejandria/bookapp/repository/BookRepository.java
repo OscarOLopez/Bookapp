@@ -28,8 +28,16 @@ public interface BoookRespository extends JpaRepository<BookEntity, Long>{
     BookEntity getByCategory(String category);
 
     //filtro por editorial
-    @Query("SELECT b FROM BookEntity b WHERE b.publisher ORDER BY publisher ASC ")
+    @Query("SELECT b FROM BookEntity b WHERE b.publisher ORDER BY publisher ASC")
     BookEntity getByPublisher(String publisher);
+
+    // FILTRO PARA SELECCIONAR LOS MÁS NUEVOS
+    @Query("SELECT b FROM BookEntity b WHERE b.date_published >= ?1")
+    BookEntity findBooksPublished(Date fromDate);
+
+    // FILTRO PARA SELECCIONAR LOS RECIÉN AÑADIDOS
+    @Query("SELECT b FROM BookEntity b WHERE b.book_id BETWEEN (SELECT MAX(book_id) - 30 FROM BookEntity b) AND (SELECT MAX(book_id) FROM BookEntity b) ORDER BY b.book_id DESC")
+    BookEntity getRecentlyAdded(Long book_id);
 
 
 }
