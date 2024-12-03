@@ -3,6 +3,7 @@ package org.alejandria.bookapp.services;
 import org.alejandria.bookapp.exceptions.UserNotFoundException;
 import org.alejandria.bookapp.model.UserEntity;
 import org.alejandria.bookapp.repository.UserRepository;
+import org.alejandria.bookapp.services.DTO.UpdatePasswordUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,23 @@ public class UserService {
             this.userRepository.deleteById(id);
         }
         else throw new UserNotFoundException(id);
+    }
+
+//    PUT -> Actualizando la entidad (Entity)
+//    public UserEntity updateUser(UserEntity user, Long id){
+//        return userRepository.findById(id).map( userMap -> {
+//            userMap.setPassword(user.getPassword());
+//            userMap.setTelephone(user.getTelephone());
+//            return userRepository.save(userMap);
+//        }).orElseThrow( () -> new UserNotFoundException(id));
+//    }
+
+    // Metodo para actualizar la contraseña
+    public void updatePassword(UpdatePasswordUserDTO dto){
+        if(!this.userRepository.existsById(dto.getIdUser())){
+            throw   new UserNotFoundException(dto.getIdUser());
+        }
+        this.userRepository.updatePassword(dto.getIdUser(), dto.getPassword());
     }
 
 }

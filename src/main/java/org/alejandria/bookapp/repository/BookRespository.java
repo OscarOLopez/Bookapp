@@ -1,4 +1,4 @@
 package org.alejandria.bookapp.repository;
 
-public interface BoookRespository {
+public interface BookRespository {
 }
