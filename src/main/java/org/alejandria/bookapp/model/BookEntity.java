@@ -60,5 +60,8 @@ public class BookEntity {
     @Column(name = "cover_img")
     private String coverImg;
 
+    @Column(name = "category")
+    private String category;
+
 
 }
