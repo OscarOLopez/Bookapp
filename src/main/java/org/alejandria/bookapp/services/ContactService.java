@@ -80,7 +80,10 @@ public class ContactService {
 		return palabra;
 	}
 	
-	
+	//Metodo para crear nuevo mensaje de contacto
+	public ContactEntity newContact(ContactEntity contact) {
+		return this.contactRepository.save(contact);
+	}
 	
 	
 	
