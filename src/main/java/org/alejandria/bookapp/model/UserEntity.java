@@ -19,17 +19,9 @@ public class UserEntity {
 
     private Long idUser;
 
-    @Column(name = "first_Name",length = 45,nullable = false)
+    @Column(name = "Name",length = 45,nullable = false)
 
-    private String firstName;
-
-    @Column(name = "last_Name",length = 45,nullable = false)
-
-    private String lastName;
-
-    @Column(name = "last_Name2",length = 45)
-
-    private String lastName2;
+    private String name;
 
     @Column(name = "email",length = 100,nullable = false,unique = true)
 
